@@ -1,75 +1,58 @@
 # Student Task Manager
 
-**Student:** Saw Ke Blute  
+**Student Name:** Saw Ke Blute  
 **Student ID:** 202300154
 
-StudyDesk is a coursework task manager built with plain PHP, MySQL/MariaDB, HTML, and CSS. It can add, view, edit, complete, and delete tasks. The dashboard shows total, in-progress, and completed task counts, and highlights overdue unfinished tasks.
+This is a coursework task manager built with plain PHP, MySQL, HTML, and CSS. I can add, view, edit, complete, and delete academic tasks. The dashboard shows task totals and highlights unfinished tasks whose due dates have passed.
 
 ## Setup
 
-1. Start MySQL or MariaDB.
-2. Import `schema.sql` to create the `student_task_manager` database and its `tasks` table.
-3. Open `db.php` and change the MySQL username or password if your local setup uses different values.
-4. Open this folder in VS Code. In its integrated terminal, run `php -S 127.0.0.1:8000`.
-5. Keep that terminal open and visit `http://127.0.0.1:8000` in your browser.
-6. Try adding a sample task, editing it, clicking its check circle to change its completion status, and deleting it.
+1. Start MySQL.
+2. Import `schema.sql`. This creates the `student_task_manager` database and the `tasks` table.
+3. Open `db.php`. The default MySQL username is `root` and the password is blank. Change these values if your MySQL setup is different.
+4. Open this project folder in VS Code.
+5. Open **Terminal → New Terminal** and run `php -S 127.0.0.1:8000`.
+6. Keep the terminal open and visit `http://127.0.0.1:8000` in a browser.
 
-## What each file does
+## Project Files
 
-- `index.php`: reads and displays the tasks, calculates the dashboard counts, and highlights overdue unfinished tasks. Its check circle submits the selected task's new status.
-- `create.php`: checks new-task input and saves a task with INSERT.
-- `edit.php`: loads one task using its ID, checks edited input, and saves changes with UPDATE.
-- `task_form.php`: displays the shared styled form used by both `create.php` and `edit.php`.
-- `complete.php`: saves the complete or in-progress status submitted by a task's check circle.
-- `delete.php`: deletes a task submitted from the list.
-- `db.php`: opens the PDO connection to MySQL.
-- `functions.php`: contains the `e()` helper, which safely escapes text before showing it in HTML.
-- `schema.sql`: creates the database and `tasks` table.
-- `style.css`: styles the dashboard, task cards, buttons, and shared add/edit form.
+- `index.php` reads and displays tasks, calculates the dashboard counts, and highlights overdue unfinished tasks.
+- `create.php` checks the new-task form and saves the task with SQL INSERT.
+- `edit.php` loads a task using its ID and saves changes with SQL UPDATE.
+- `task_form.php` displays the shared form used by the Add and Edit pages.
+- `complete.php` saves a task's completed or in-progress status.
+- `delete.php` deletes a task from the list.
+- `db.php` connects PHP to MySQL using PDO.
+- `functions.php` contains `e()`, which escapes text before it is displayed in HTML.
+- `schema.sql` creates the database and task table.
+- `style.css` styles the dashboard, task cards, buttons, and forms.
 
-## How the main actions work
+## How the Application Works
 
-**Add:** the shared form sends its fields to `create.php` with POST. PHP checks the title and priority, prepares an INSERT query, and saves the task.
+When I add or edit a task, the browser sends the form values to PHP with POST. PHP checks that the title is not blank and that the priority is valid. It then uses a prepared SQL statement to save the task in MySQL.
 
-**Show:** `index.php` runs SELECT queries to get the tasks and count completed tasks. A `foreach` loop displays each task.
+The task list uses SELECT to read saved tasks. A `foreach` loop displays each task. The completed count comes from a SQL COUNT query. Clicking a task's check button sends its ID and new status to `complete.php`. The Edit link sends a task ID in the URL with GET. The Delete button sends the task ID with POST.
 
-**Edit:** the Edit link includes the task ID in the URL (GET). `edit.php` uses it to load that task. The shared form sends changes with POST, and PHP saves them with UPDATE.
+Before showing user-entered text, the application uses `e()`, which calls `htmlspecialchars()` to display the text safely. Session messages tell me when a task has been added, changed, completed, or deleted.
 
-**Complete:** click a task's check circle. It sends the task ID and new status to `complete.php`, which saves the status with a prepared UPDATE query. Click again to mark it in progress.
+## Assigned Challenge
 
-**Delete:** the delete form sends the task ID to `delete.php` with POST. PHP runs a prepared DELETE query and returns to the list.
+The project highlights overdue tasks. An unfinished task is marked **Overdue** when its due date is earlier than today's date. Completed tasks are not marked overdue. The dashboard also counts completed tasks.
 
-## Assigned challenge
-
-This project highlights overdue tasks: a task is marked overdue when its due date is earlier than today and it is not completed. The dashboard also counts completed tasks. The supplied brief left the instructor-assigned challenge line blank, so confirm that overdue-task highlighting matches the challenge you were assigned.
-
-## AI-use reflection draft
+## AI-Use Reflection
 
 **AI tool used:** ChatGPT.
 
 **Three examples of how AI helped me:**
 
-1. It helped me plan the project files and folder structure.
-2. It gave examples of connecting PHP to MySQL with PDO and prepared statements.
-3. It explained the add, show, edit, complete, and delete flows.
+1. ChatGPT helped me organize the project into PHP, SQL, CSS, and README files.
+2. ChatGPT showed me how PHP connects to MySQL with PDO and prepared statements.
+3. ChatGPT helped me understand how the add, view, edit, complete, and delete actions work.
 
-**One suggestion I changed or rejected:** I kept the project with plain PHP and CSS instead of using a framework or library, because the exam rules do not allow them.
+**One AI-generated suggestion or piece of code that I changed or rejected:**
 
-**The part I understand least:** Write the part you personally find hardest after reading and trying the code. For example, if true for you, explain how the values passed to `execute()` match the named placeholders in an SQL query.
+The first version included extra CSRF-token code. I removed that code when I simplified the project because I wanted the PHP flow to be easier for me to understand and explain. I kept the required prepared statements and input checks.
 
-This reflection is a draft. Change it so it truthfully describes your own experience and understanding.
+**The part of this application I understand least:**
 
-## Practice explaining it
-
-Try to explain these in your own words without looking at the answers:
-
-1. What is the difference between GET and POST in this project?
-2. Why does PHP use `prepare()` and `execute()` for database queries?
-3. What does the `e()` function do?
-4. How does the completed-task count get calculated?
-5. What does the `foreach` loop do on the task list?
-6. How does clicking the check circle change a task's status?
-7. How does the program decide whether a task is overdue?
-8. What happens if the title is blank?
-
-The assignment includes a no-AI code defense and live modification. Practice making one small change yourself so you can explain it.
+I find it hardest to follow how the form values match the named placeholders in a PDO query. I need to practice tracing the values from the form, through `execute()`, and into the SQL INSERT or UPDATE statement.
