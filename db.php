@@ -23,8 +23,8 @@ if (is_readable($envFile)) {
 $host = getenv('DB_HOST') ?: '127.0.0.1';
 $port = getenv('DB_PORT') ?: '3306';
 $database = getenv('DB_NAME') ?: 'student_task_manager';
-$username = getenv('DB_USERNAME') ?: 'root';
-$password = getenv('DB_PASSWORD') ?: 'Root@123';
+$username = getenv('DB_USERNAME');
+$password = getenv('DB_PASSWORD');
 
 if ($username === false || $username === '' || $password === false) {
     throw new RuntimeException('Set DB_USERNAME and DB_PASSWORD in the local .env file or process environment.');
