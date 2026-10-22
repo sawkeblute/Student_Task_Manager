@@ -7,9 +7,9 @@ This is a coursework task manager built with plain PHP, MySQL, HTML, and CSS. I 
 
 ## Setup
 
-1. Start MySQL.
-2. Import `schema.sql`. This creates the `student_task_manager` database and the `tasks` table.
-3. Open `db.php`. The default MySQL username is `root` and the password is blank. Change these values if your MySQL setup is different.
+1. Start your Oracle MySQL server.
+2. Create a local `.env` file by copying `.env.example`. Set `DB_USERNAME` and `DB_PASSWORD` to a MySQL account that can access `student_task_manager`. The connection defaults to `127.0.0.1:3306` and uses TCP.
+3. If the database and `tasks` table already exist, keep them as they are. `schema.sql` is only for a new setup; do not import it over a database containing data.
 4. Open this project folder in VS Code.
 5. Open **Terminal → New Terminal** and run `php -S 127.0.0.1:8000`.
 6. Keep the terminal open and visit `http://127.0.0.1:8000` in a browser.
@@ -23,6 +23,7 @@ This is a coursework task manager built with plain PHP, MySQL, HTML, and CSS. I 
 - `complete.php` saves a task's completed or in-progress status.
 - `delete.php` deletes a task from the list.
 - `db.php` connects PHP to MySQL using PDO.
+- `.env.example` documents the local database settings; keep real credentials in `.env`, which is excluded from Git.
 - `functions.php` contains `e()`, which escapes text before it is displayed in HTML.
 - `schema.sql` creates the database and task table.
 - `style.css` styles the dashboard, task cards, buttons, and forms.
